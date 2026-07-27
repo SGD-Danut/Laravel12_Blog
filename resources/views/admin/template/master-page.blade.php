@@ -18,8 +18,7 @@
 
 	<link href="/admin-assets/css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="/datatables/datatables.css"> --}}
-	<link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.css" />
+    
 	@yield('custom-css')
 </head>
 
@@ -52,11 +51,7 @@
 	</div>
 
 	<script src="/admin-assets/js/app.js"></script>
-	<script src="/admin-assets/js/jquery/jquery-4.0.0.slim.min.js"></script>
-	<script src="/admin-assets/js/datatables/datatables.min.js"></script>
-	<script>
-		let table = new DataTable('#datatables');
-	</script>
+	@yield('custom-js')
 </body>
 
 </html>

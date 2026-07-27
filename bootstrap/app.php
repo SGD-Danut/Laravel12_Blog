@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\OnlyAdminHasAccess; // Trebuie să includem middleware-ul
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Aici se înregistrează middleware-ul dând un alias
+        $middleware->alias([
+            'onlyAdmin' => OnlyAdminHasAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

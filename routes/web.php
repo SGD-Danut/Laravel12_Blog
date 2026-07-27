@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\OnlyAdminHasAccess;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,3 +25,5 @@ require __DIR__.'/auth.php';
 
 Route::get('/admin', [HomeController::class, 'showHome'])->middleware(['auth'])->name('admin.show-home');
 Route::get('/admin/users', [UserController::class, 'showUsers'])->middleware(['auth'])->name('admin.show-users');
+Route::get('/admin/add-user', [UserController::class, 'showAddUser'])->middleware('auth')->name('admin.show-add-user');
+Route::post('/admin/create-user', [UserController::class, 'createUser'])->middleware('auth')->name('admin.create-user');

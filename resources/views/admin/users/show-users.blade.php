@@ -4,9 +4,24 @@
 
 @section('big-title', $title)
 
+@section('custom-css')
+    <link rel="stylesheet" href="/admin-assets/js/datatables/datatables.css">
+    {{-- Margini tabel datatables CSS custom: --}}
+    <style>
+        #datatables_wrapper {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="card-header">
         <h5 class="card-title mb-0">{{ $title }}</h5>
+        <br>
+        <a href="{{ route('admin.show-add-user') }}">
+            <button type="button" class="btn btn-success new-user-button">Utilizator nou</button>
+        </a>
     </div>
     <table class="table table-hover my-0" id="datatables">
         <thead>
@@ -21,10 +36,33 @@
                 <tr>
                     <td class="d-none d-xl-table-cell">{{ $user->name }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->email }}</td>
-                    <td class="d-none d-xl-table-cell">{{ $user->created_at }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $user->created_at->format('d.m.Y') }}</td>
                 </tr>
             @endforeach
             
         </tbody>
     </table>
+@endsection
+
+@section('custom-js')
+	<script src="/admin-assets/js/jquery/jquery-4.0.0.slim.min.js"></script>
+	<script src="/admin-assets/js/datatables/datatables.min.js"></script>
+	<script>
+		let table = new DataTable('#datatables', {
+			language: {
+				search: "Căutare:",
+				info: "Se afișează pagina _PAGE_ din _PAGES_",
+				lengthMenu: "Afișează _MENU_ înregistrări pe pagină",
+				zeroRecords: "Nu au fost găsite rezultate",
+				infoEmpty: "Nu sunt înregistrări disponibile",
+				infoFiltered: "(filtrate dintr-un total de _MAX_ înregistrări)",
+				paginate: {
+					first: "Prima",
+					previous: "Precedenta",
+					next: "Următoarea",
+					last: "Ultima"
+				}
+			}
+		});
+	</script>
 @endsection
