@@ -28,6 +28,9 @@
             <tr>
                 <th class="d-none d-xl-table-cell">Nume</th>
                 <th class="d-none d-xl-table-cell">Email</th>
+                <th class="d-none d-xl-table-cell">Adresă / Telefon</th>
+                <th class="d-none d-xl-table-cell">Fotografie</th>
+                <th class="d-none d-xl-table-cell">Rol</th>
                 <th class="d-none d-md-table-cell">Creat la</th>
             </tr>
         </thead>
@@ -36,10 +39,18 @@
                 <tr>
                     <td class="d-none d-xl-table-cell">{{ $user->name }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->email }}</td>
+                    <td class="d-none d-xl-table-cell">{{ $user->address . ' ' . $user->phone }}</td>
+                    <td class="d-none d-xl-table-cell">
+                        @if ($user->photo == 'defaultUserPhoto.png')
+                            <img src="/admin-assets/images/users/{{ $user->photo }}" class="mx-auto" width="35" alt="Imagine utilizator">
+                        @else
+                            <img src="/storage/admin/images/users/{{ $user->photo }}" class="mx-auto" width="35" alt="Imagine utilizator">
+                        @endif
+                    </td>
+                    <td class="d-none d-xl-table-cell">{{ $user->role }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->created_at->format('d.m.Y') }}</td>
                 </tr>
             @endforeach
-            
         </tbody>
     </table>
 @endsection

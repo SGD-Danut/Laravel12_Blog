@@ -8,7 +8,7 @@
   <div class="card-header">
       <h5 class="card-title mb-0">{{ $title }}</h5>
   </div>
-  <form action="{{ route('admin.create-user') }}" method="POST" class="col-lg-3 mx-auto">
+  <form action="{{ route('admin.create-user') }}" method="POST" enctype="multipart/form-data" class="col-lg-3 mx-auto">
     @csrf
     <div class="mb-3">
       <label for="inputName" class="form-label">Nume complet</label>
@@ -32,6 +32,10 @@
       @enderror
     </div>
     <div class="mb-3">
+      <label for="inputConfirmPassword" class="form-label">Confirmare parolă</label>
+      <input type="password" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" id="inputConfirmPassword">
+    </div>
+    <div class="mb-3">
       <label for="selectRole" class="form-label">Rol</label>
       <select class="form-select" name="role" value="{{ old('role') }}" aria-label="selectRole">
         <option value="editor">Editor</option>
@@ -53,7 +57,21 @@
           <div id="phoneHelp" class="form-text text-danger">{{ $message }}</div>
       @enderror
     </div>
+    <div class="mb-3">
+      <label for="inputPhoto" class="form-label">Fotografie</label>
+      <div class="mb-3 text-center" id="image-preview">
+        <img src="/admin-assets/images/users/defaultUserPhoto.png" class="img-thumbnail" alt="Fotografie utilizator">
+      </div>
+      <input type="file" name="photo" accept="images/*" id="inputPhoto" class="form-control @error('photo') is-invalid @enderror" aria-describedby="photoHelp">
+      @error('photo')
+          <div id="photoHelp" class="form-text text-danger">{{ $message }}</div>
+      @enderror
+    </div>
     <button type="submit" class="btn btn-primary">Adaugă utilizator</button>
   </form>
   <br>
+@endsection
+
+@section('custom-js')
+  @include('scripts.image-preview-script')
 @endsection

@@ -23,7 +23,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Rute pentru admin scrise normal:
 Route::get('/admin', [HomeController::class, 'showHome'])->middleware(['auth'])->name('admin.show-home');
-Route::get('/admin/users', [UserController::class, 'showUsers'])->middleware(['auth'])->name('admin.show-users');
-Route::get('/admin/add-user', [UserController::class, 'showAddUser'])->middleware('auth')->name('admin.show-add-user');
-Route::post('/admin/create-user', [UserController::class, 'createUser'])->middleware('auth')->name('admin.create-user');
+
+// Rute pentru admin grupate după prefix, middleware și controller:
+Route::prefix('admin')->controller(UserController::class)->middleware(['auth', 'onlyAdmin'])->group(function() {
+    Route::get('/users','showUsers')->name('admin.show-users');
+    Route::get('/add-user','showAddUser')->name('admin.show-add-user');
+    Route::post('/create-user','createUser')->name('admin.create-user');
+});

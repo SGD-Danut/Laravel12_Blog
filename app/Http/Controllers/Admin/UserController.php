@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware; // Includem interfața HasMiddleware
@@ -38,7 +39,7 @@ class UserController extends Controller implements HasMiddleware // Implementăm
         return view('admin.users.show-add-user')->with('title', $title);
     }
 
-    public function createUser(Request $request) {
+    public function createUser(AddUserRequest $request) {
         $user = new User();
 
         $user->name = $request->name;
@@ -47,6 +48,14 @@ class UserController extends Controller implements HasMiddleware // Implementăm
         $user->role = $request->role;
         $user->address = $request->address;
         $user->phone = $request->phone;
+
+        if ($request->hasFile('photo')) {
+            $photoExtension = $request->file('photo')->getClientOriginalExtension();
+            $photoName = str_replace(' ', '_', $request->name) . '_' . time() . '.' . $photoExtension;
+            $request->file('photo')->move('storage/admin/images/users', $photoName);
+
+            $user->photo = $photoName;
+        }
 
         $user->save();
 
