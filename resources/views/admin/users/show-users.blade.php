@@ -32,6 +32,7 @@
                 <th class="d-none d-xl-table-cell">Fotografie</th>
                 <th class="d-none d-xl-table-cell">Rol</th>
                 <th class="d-none d-md-table-cell">Creat la</th>
+                <th class="d-none d-md-table-cell">Acțiuni</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +50,11 @@
                     </td>
                     <td class="d-none d-xl-table-cell">{{ $user->role }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->created_at->format('d.m.Y') }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <a href="{{ route('admin.show-edit-user', $user->id) }}"><button type="button" class="btn btn-primary">Editare</button></a>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
