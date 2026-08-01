@@ -97,4 +97,20 @@ class UserController extends Controller implements HasMiddleware // Implementăm
 
         return redirect(route('admin.show-users'));
     }
+
+    public function deleteUser(Request $request, $userId) {
+        $user = User::findOrFail($userId);
+
+        if ($user->role == 'admin') {
+            return redirect(route('admin.show-users'));
+        }
+
+        if ($user->photo != 'defaultUserPhoto.png') {
+            File::delete('storage/admin/images/users/' . $user->photo);
+        }
+
+        $user->delete();
+
+        return redirect(route('admin.show-users'));
+    } 
 }

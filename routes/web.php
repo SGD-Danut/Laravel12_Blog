@@ -33,4 +33,5 @@ Route::prefix('admin')->controller(UserController::class)->middleware(['auth', '
     Route::post('/create-user','createUser')->name('admin.create-user');
     Route::get('/edit-user/{userId}', 'showEditUser')->name('admin.show-edit-user');
     Route::put('/update-user/{userId}', 'updateUser')->name('admin.update-user');
+    Route::delete('/delete-user/{userId}', 'deleteUser')->name('delete-user');
 });

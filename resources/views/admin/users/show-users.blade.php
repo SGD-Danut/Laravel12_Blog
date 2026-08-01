@@ -53,6 +53,17 @@
                     <td>
                         <div class="btn-group" role="group" aria-label="Action buttons">
                             <a href="{{ route('admin.show-edit-user', $user->id) }}"><button type="button" class="btn btn-primary">Editare</button></a>
+                            <form id="delete-user-form-with-id-{{ $user->id }}" action="{{ route('delete-user', $user->id) }}" method="POST" style="display: none">
+                                @csrf
+                                @method('delete')
+                            </form>
+                            <button type="button" class="btn btn-danger" 
+                                onclick="
+                                    if (confirm('Sigur ștergeți acest utilizatorul: {{ addslashes($user->name) }} ?')) {
+                                        document.getElementById('delete-user-form-with-id-{{ $user->id }}').submit();
+                                    }
+                                ">Ștergere
+                            </button>
                         </div>
                     </td>
                 </tr>
