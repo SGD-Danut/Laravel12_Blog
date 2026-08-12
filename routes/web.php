@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,9 @@ Route::prefix('admin')->controller(UserController::class)->middleware(['auth', '
     Route::get('/edit-user/{userId}', 'showEditUser')->name('admin.show-edit-user');
     Route::put('/update-user/{userId}', 'updateUser')->name('admin.update-user');
     Route::delete('/delete-user/{userId}', 'deleteUser')->name('delete-user');
+});
+
+Route::prefix('admin')->controller(UserProfileController::class)->middleware('auth')->group(function() {
+    Route::get('/edit-user-profile', 'showEditUserProfile')->name('admin.show-edit-user-profile');
+    Route::put('/update-user-profile', 'updateUserProfile')->name('admin.update-user-profile');
 });
