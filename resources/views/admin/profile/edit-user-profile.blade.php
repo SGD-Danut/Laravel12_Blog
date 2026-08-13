@@ -56,6 +56,36 @@
     <button type="submit" class="btn btn-primary">Actualizare profil utilizator</button>
   </form>
   <br>
+  @if (Session::has('passwordMessage'))
+    <div class="col-lg-3 mx-auto">
+      <div class="text-success" role="alert">
+        {!! Session::get('passwordMessage') !!}
+      </div>
+    </div>     
+  @endif
+  <form action="{{ route('admin.update-user-password') }}" method="POST" class="col-lg-3 mx-auto" enctype="multipart/form-data" id="change-password-form">
+    @csrf
+    @method('put')
+    <div class="mb-3">
+      <label for="inputPassword" class="form-label">Parolă actuală</label>
+      <input type="password" class="form-control @error('old_password') is-invalid @enderror" id="inputPassword" name="old_password">
+      @error('old_password')
+          <div id="passwordHelp" class="form-text text-danger">{{ $message }}</div>
+      @enderror
+    </div>
+    <div class="mb-3">
+      <label for="inputNewPassword" class="form-label">Noua parolă</label>
+      <input type="password" class="form-control @error('new_password') is-invalid @enderror" id="inputNewPassword" name="new_password">
+      @error('new_password')
+      <div id="newPasswordHelp" class="form-text text-danger">{{ $message }}</div>
+      @enderror
+    </div>
+    <div class="mb-3">
+      <label for="inputConfirmPassword" class="form-label">Confirmare noua parolă</label>
+      <input type="password" class="form-control @error('new_password') is-invalid @enderror" id="inputConfirmPassword" name="new_password_confirmation">
+    </div>
+    <button type="submit" class="btn btn-primary">Schimbare parolă</button>
+  </form>
 @endsection
 
 @section('custom-js')

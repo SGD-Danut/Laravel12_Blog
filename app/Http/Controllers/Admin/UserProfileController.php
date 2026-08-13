@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfilePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use LaravelLang\Publisher\Console\Update;
 
 class UserProfileController extends Controller implements HasMiddleware
@@ -41,7 +44,7 @@ class UserProfileController extends Controller implements HasMiddleware
                 File::delete('storage/admin/images/users/' . $user->photo);
             }
             $photoExtension = $request->file('photo')->getClientOriginalExtension();
-            $photoName = str_replace(' ', '_', $request->name) . '_' . time() . '.' . $photoExtension;
+            $photoName = Str::slug($request->name) . '_' . time() . '.' . $photoExtension;
             $request->file('photo')->move('storage/admin/images/users', $photoName);
 
             $user->photo = $photoName;
@@ -50,5 +53,23 @@ class UserProfileController extends Controller implements HasMiddleware
         $user->save();
 
         return redirect(route('admin.show-edit-user-profile'));
+    }
+
+    public function updateUserPassword(UpdateProfilePasswordRequest $request) {
+        $credentials = [
+            'email' => auth()->user()->email,
+            'password' => $request->old_password
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $newPassword = bcrypt($request->new_password);
+            // $user = auth()->user();
+            $user = User::findOrFail(auth()->id());
+            $user->password = $newPassword;
+            
+            $user->save();
+
+            return redirect()->back()->with('passwordMessage', 'Parola a fost modificată cu succes. <br> Noua parolă pentru acest cont este <strong>' . $request->new_password . '</strong>. <br> Notați noua parolă într-un loc sigur.');
+        } 
     }
 }
