@@ -52,7 +52,8 @@ class UserProfileController extends Controller implements HasMiddleware
 
         $user->save();
 
-        return redirect(route('admin.show-edit-user-profile'));
+        // return redirect(route('admin.show-edit-user-profile'));
+        return redirect()->back()->with('success', 'Profilul a fost actualizat cu succes!');
     }
 
     public function updateUserPassword(UpdateProfilePasswordRequest $request) {
@@ -70,6 +71,8 @@ class UserProfileController extends Controller implements HasMiddleware
             $user->save();
 
             return redirect()->back()->with('passwordMessage', 'Parola a fost modificată cu succes. <br> Noua parolă pentru acest cont este <strong>' . $request->new_password . '</strong>. <br> Notați noua parolă într-un loc sigur.');
-        } 
+        }
+        
+        return redirect()->back()->with('error', 'Parola nu a fost modificată cu succes, parola actuală nu este corectă!');
     }
 }

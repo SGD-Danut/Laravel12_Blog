@@ -8,6 +8,7 @@
   <div class="card-header">
       <h5 class="card-title mb-0">{{ $title }}</h5>
   </div>
+  @include('admin.template.parts.messages')
   <form action="{{ route('admin.update-user-profile') }}" method="POST" enctype="multipart/form-data" class="col-lg-3 mx-auto">
     @csrf
     @method('put')
@@ -86,6 +87,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Schimbare parolă</button>
   </form>
+  <br>
 @endsection
 
 @section('custom-js')
