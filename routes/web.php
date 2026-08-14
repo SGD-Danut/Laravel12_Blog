@@ -37,7 +37,7 @@ Route::prefix('admin')->controller(UserController::class)->middleware(['auth', '
     Route::delete('/delete-user/{userId}', 'deleteUser')->name('delete-user');
 });
 
-Route::prefix('admin')->controller(UserProfileController::class)->middleware('auth')->group(function() {
+Route::prefix('admin')->controller(UserProfileController::class)->middleware('auth', 'verified')->group(function() {
     Route::get('/edit-user-profile', 'showEditUserProfile')->name('admin.show-edit-user-profile');
     Route::put('/update-user-profile', 'updateUserProfile')->name('admin.update-user-profile');
     Route::put('/update-user-password', 'updateUserPassword')->name('admin.update-user-password');
