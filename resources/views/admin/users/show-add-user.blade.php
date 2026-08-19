@@ -58,6 +58,13 @@
       @enderror
     </div>
     <div class="mb-3">
+      <label for="checkValidateEmail" class="form-label">Validare email</label>
+      <div class="form-check text-start">
+          <input class="form-check-input" type="checkbox" value="1" id="checkValidateEmail" name="validateEmail">
+          <label class="form-check-label">Email validat</label>
+      </div>
+    </div>
+    <div class="mb-3">
       <label for="inputPhoto" class="form-label">Fotografie</label>
       <div class="mb-3 text-center" id="image-preview">
         <img src="/admin-assets/images/users/defaultUserPhoto.png" class="img-thumbnail" alt="Fotografie utilizator">

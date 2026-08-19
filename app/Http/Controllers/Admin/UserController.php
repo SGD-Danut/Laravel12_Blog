@@ -60,9 +60,18 @@ class UserController extends Controller implements HasMiddleware // Implementăm
             $user->photo = $photoName;
         }
 
+        $confirmationUpdateMessage = "Utilizatorul " . $request->name . " a fost adăugat cu succes!";
+        
+        if ($request->validateEmail == 1) {
+            $user->email_verified_at = now();
+            $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " Email-ul utilizatorului este validat.";
+        } else {
+            $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " Email-ul utilizatorului nu este validat.";
+        }
+        
         $user->save();
 
-        return redirect(route('admin.show-users'));
+        return redirect(route('admin.show-users'))->with('success', $finalConfirmationUpdateMessage);
     }
 
     public function showEditUser($userId) {
@@ -93,9 +102,47 @@ class UserController extends Controller implements HasMiddleware // Implementăm
             $user->photo = $photoName;
         }
 
+        $finalConfirmationUpdateMessage = '';
+        $confirmationUpdateMessage = 'Datele utilizatorului au fost actualizate cu succes';
+        
+        // Daca utilizatorul alege optiunea 'Nici-o acțiune':
+        if ($request->userEmailAction == 'noAction') {
+            $finalConfirmationUpdateMessage = $confirmationUpdateMessage . '.';
+        }
+        
+        // Trimite notificare utilizatorului de confirmare email - prin email:
+        if ($request->userEmailAction == 'notifyUserToConfirmEmail') {
+            if ($user->email_verified_at == null) {
+                $user->sendEmailVerificationNotification();
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " și a fost trimisă o notificare utilizatorului prin email pentru confirmare a email-ului.";
+            } else {
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . ", dar nu s-a trimis o notificare utilizatorului prin email pentru confirmare a email-ului deoarece adresa de email este deja validată.";
+            }
+        }
+        
+        // Validare email:
+        if ($request->userEmailAction == 'validateEmail') {
+            if ($user->email_verified_at == null) {
+                $user->email_verified_at = now();
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " și email-ul a fost validat cu succes.";
+            } else {
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " dar email-ul nu a fost validat cu succes deoarece este deja validat.";   
+            }
+        }
+        
+        // Invalidare email:
+        if ($request->userEmailAction == 'invalidateEmail') {
+            if ($user->email_verified_at != null) {
+                $user->email_verified_at = null;
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " și email-ul a fost invalidat cu succes.";
+            } else {
+                $finalConfirmationUpdateMessage = $confirmationUpdateMessage . " și email-ul nu a fost invalidat cu succes deoarece este deja invalidat.";
+            }
+        }
+
         $user->save();
 
-        return redirect(route('admin.show-users'));
+        return redirect(route('admin.show-users'))->with('success', $finalConfirmationUpdateMessage);
     }
 
     public function deleteUser(Request $request, $userId) {

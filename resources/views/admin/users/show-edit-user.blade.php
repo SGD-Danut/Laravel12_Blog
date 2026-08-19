@@ -48,6 +48,15 @@
       @enderror
     </div>
     <div class="mb-3">
+      <label for="userEmailStatus" class="form-label">Stare confirmare email</label>
+      <select class="form-select" name="userEmailAction" aria-label="userEmailStatus">
+        <option selected value="noAction">Nici-o acțiune</option>
+        <option class="text-warning" value="notifyUserToConfirmEmail">Trimite notificare de confirmare email</option>
+        <option class="text-success" value="validateEmail">Valideză email-ul</option>
+        <option class="text-danger" value="invalidateEmail">Invalidează email-ul</option>
+      </select>
+    </div>
+    <div class="mb-3">
       <label for="inputPhoto" class="form-label">Fotografie</label>
       <div class="mb-3 text-center" id="image-preview">
         @if ($user->photo == 'defaultUserPhoto.png')

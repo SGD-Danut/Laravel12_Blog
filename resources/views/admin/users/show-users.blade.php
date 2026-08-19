@@ -23,9 +23,11 @@
             <button type="button" class="btn btn-success new-user-button">Utilizator nou</button>
         </a>
     </div>
+    @include('admin.template.parts.messages')
     <table class="table table-hover my-0" id="datatables">
         <thead>
             <tr>
+                <th class="d-none d-xl-table-cell">Verificat</th>
                 <th class="d-none d-xl-table-cell">Nume</th>
                 <th class="d-none d-xl-table-cell">Email</th>
                 <th class="d-none d-xl-table-cell">Adresă / Telefon</th>
@@ -38,6 +40,7 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
+                    <td class="d-none d-xl-table-cell">{!! $user->hasVerifiedEmail() ? '<i class="bi bi-person-check-fill text-info"> Da</i>' : '<i class="bi bi-person-check text-warning"> Nu</i>' !!}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->name }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->email }}</td>
                     <td class="d-none d-xl-table-cell">{{ $user->address . ' ' . $user->phone }}</td>
