@@ -80,5 +80,5 @@
 @endsection
 
 @section('custom-js')
-  @include('scripts.image-preview-script')
+  @include('scripts.image-preview')
 @endsection

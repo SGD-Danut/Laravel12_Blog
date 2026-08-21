@@ -21,8 +21,8 @@
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
+            <li class="sidebar-item {{ request()->routeIs('admin.show-categories') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('admin.show-categories') }}">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Categorii</span>
                 </a>
             </li>
